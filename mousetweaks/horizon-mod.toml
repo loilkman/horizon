@@ -1,0 +1,75 @@
+id = "mousetweaks"
+name = "Mouse Tweaks"
+version = "1.2.0"
+description = "Enhances inventory management by adding various functions to the mouse buttons."
+authors = []
+# A native mod: Rust in src/, compiled by the launcher against the game build
+# [native] pins. Its settings are the game's (Options > Mods); the rest is two
+# support modules and four mixins on the container screens' own events.
+api = "0.2"
+side = "client"
+capabilities = ["registries"]
+
+[native]
+game = "26.3"
+horizon = "c07bfa76e71e8db9e84a7e61832a8fb898718e81"
+mixins = "e59da9094f0c2fdda6c627fe9eff22dec6a906f0"
+
+# The mod's logic, with no game types: `crate::game::native_hooks::base::mousetweaks`.
+[[native.module]]
+id = "runtime"
+file = "crates/horizon-client/src/game/native_hooks/base.rs"
+name = "mousetweaks"
+source = "src/runtime.rs"
+
+# Its edges in the game: the open menu, its clicks, the four events.
+[[native.module]]
+id = "glue"
+file = "crates/horizon-client/src/game/native_hooks/base.rs"
+name = "mousetweaks_glue"
+source = "src/glue.rs"
+
+# `AbstractContainerScreen.mouseClicked`: the press on a slot, before the
+# screen clicks it (after the recipe book, the sort buttons and a press
+# outside the window had theirs).
+[[native.mixin]]
+id = "press"
+target = "horizon_client::game::extras::mouse_tweaks::Game<'_>::tweak_press"
+kind = "HEAD"
+cancellable = true
+helper = "src/mixins/press.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "slot", ty = "Option<usize>", value = "slot" },
+  { name = "right", ty = "bool", value = "right" },
+  { name = "shift", ty = "bool", value = "shift" },
+]
+
+# `mouseDragged`: every cursor move over a container screen.
+[[native.mixin]]
+id = "drag"
+target = "horizon_client::game::inventory_input::Game<'_>::inventory_drag_move"
+kind = "HEAD"
+helper = "src/mixins/drag.rs"
+bindings = [{ name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" }]
+
+# `mouseReleased`.
+[[native.mixin]]
+id = "release"
+target = "horizon_client::game::inventory_input::Game<'_>::inventory_mouse_release"
+kind = "HEAD"
+helper = "src/mixins/release.rs"
+bindings = [{ name = "right", ty = "bool", value = "right" }]
+
+# `mouseScrolled`, after a bundle under the cursor had its turn.
+[[native.mixin]]
+id = "scroll"
+target = "horizon_client::game::extras::mouse_tweaks::Game<'_>::tweak_scroll"
+kind = "HEAD"
+cancellable = true
+helper = "src/mixins/scroll.rs"
+bindings = [
+  { name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" },
+  { name = "delta", ty = "f32", value = "delta" },
+  { name = "slot", ty = "Option<usize>", value = "slot" },
+]

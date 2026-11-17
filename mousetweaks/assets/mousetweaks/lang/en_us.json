@@ -1,0 +1,17 @@
+{
+  "mousetweaks.setting.rmb_tweak": "RMB Tweak",
+  "mousetweaks.setting.lmb_tweak_with_item": "LMB Tweak With Item",
+  "mousetweaks.setting.lmb_tweak_without_item": "LMB Tweak Without Item",
+  "mousetweaks.setting.wheel_tweak": "Wheel Tweak",
+  "mousetweaks.setting.wheel_search_order": "Wheel Tweak Search Order",
+  "mousetweaks.setting.wheel_scroll_direction": "Scroll Direction",
+  "mousetweaks.setting.scroll_item_scaling": "Scroll Scaling",
+  "mousetweaks.value.first_to_last": "First to Last",
+  "mousetweaks.value.last_to_first": "Last to First",
+  "mousetweaks.value.down_to_push": "Down to Push, Up to Pull",
+  "mousetweaks.value.up_to_push": "Up to Push, Down to Pull",
+  "mousetweaks.value.position_aware": "Inventory Position Aware",
+  "mousetweaks.value.position_aware_inverted": "Inventory Position Aware, Inverted",
+  "mousetweaks.value.proportional": "Multiple Wheel Clicks Move Multiple Items",
+  "mousetweaks.value.always_one": "Always Move One Item (macOS Compatibility)"
+}
